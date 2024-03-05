@@ -29,6 +29,8 @@ jobs:
           # Incrémente le dernier numéro (patch version)
           PATCH=$((PATCH + 1))
           NEW_TAG="v$MAJ.$MIN.$PATCH"
+          echo "Nouveau tag: $NEW_TAG"
+          echo "::set-output name=tag::$NEW_TAG"
         else
           echo "Aucun tag trouvé. Création du tag initial."
           NEW_TAG="v0.0.1"
@@ -48,7 +50,7 @@ jobs:
         git tag ${{ steps.newtag.outputs.tag }}
         
         # Pousser le tag vers le dépôt GitHub
-        git push origin ${{ steps.newtag.outputs.tag }}
+        git push origin ${{ steps.newtag.outputs.tag }} --tags
 
     - name: Output new tag
       id: output_tag
@@ -72,7 +74,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v3
       with:
-        context: ./vite-react-demo
+        context: vite-react-demo
         file: Dockerfile
         push: true
         tags: ${{ steps.repo_name.outputs.lower }}:${{ needs.tags.outputs.new_tag }}, ${{ steps.repo_name.outputs.lower }}:latest
