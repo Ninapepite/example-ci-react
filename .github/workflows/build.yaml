@@ -77,6 +77,6 @@ jobs:
         context: vite-react-demo
         file: ./vite-react-demo/Dockerfile
         push: true
-        tags: ${{ steps.repo_name.outputs.lower }}:${{ needs.tags.outputs.new_tag }}, ${{ steps.repo_name.outputs.lower }}:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/${{ steps.repo_name.outputs.lower }}:${{ needs.tags.outputs.new_tag }}, ${{ secrets.DOCKER_USERNAME }}/${{ steps.repo_name.outputs.lower }}:latest
         labels: org.opencontainers.image.source=https://github.com/${{ github.repository }} ## https://opencontainers.org/
      
