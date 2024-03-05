@@ -75,7 +75,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: vite-react-demo
-        file: Dockerfile
+        file: ./vite-react-demo/Dockerfile
         push: true
         tags: ${{ steps.repo_name.outputs.lower }}:${{ needs.tags.outputs.new_tag }}, ${{ steps.repo_name.outputs.lower }}:latest
         labels: org.opencontainers.image.source=https://github.com/${{ github.repository }} ## https://opencontainers.org/
