@@ -56,8 +56,9 @@ jobs:
     needs: tags
     runs-on: ubuntu-latest
     steps:
-    - name: downcase REPO
-      run: echo "REPO=${{github.event.repository.name}}" >>${GITHUB_ENV}
+    - name: Convert repo name to lowercase
+      id: repo_name
+      run: echo "::set-output name=lower::$(echo '${{ github.repository }}' | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')"
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Log in to Docker Hub
@@ -72,6 +73,6 @@ jobs:
         context: ./vite-react-demo
         file: Dockerfile
         push: true
-        tags: $REPO:${{ needs.tags.outputs.new_tag }}, $REPO:latest
+        tags: ${{ steps.repo_name.outputs.lower }}:${{ needs.tags.outputs.new_tag }}, ${{ steps.repo_name.outputs.lower }}:latest
         labels: org.opencontainers.image.source=https://github.com/${{ github.repository }} ## https://opencontainers.org/
      
