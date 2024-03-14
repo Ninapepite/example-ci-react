@@ -29,8 +29,6 @@ jobs:
           # Incrémente le dernier numéro (patch version)
           PATCH=$((PATCH + 1))
           NEW_TAG="v$MAJ.$MIN.$PATCH"
-          echo "Nouveau tag: $NEW_TAG"
-          echo "::set-output name=tag::$NEW_TAG"
         else
           echo "Aucun tag trouvé. Création du tag initial."
           NEW_TAG="v0.0.1"
@@ -79,4 +77,3 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/${{ steps.repo_name.outputs.lower }}:${{ needs.tags.outputs.new_tag }}, ${{ secrets.DOCKER_USERNAME }}/${{ steps.repo_name.outputs.lower }}:latest
         labels: org.opencontainers.image.source=https://github.com/${{ github.repository }} ## https://opencontainers.org/
-     
